@@ -6,7 +6,7 @@ public class DogFunction : MonoBehaviour {
 
 
     private float speed = 6.0f;
-    private float jumpHeight = 4.0f;
+    private float jumpHeight = 8.0f;
 
     private Rigidbody2D body;
     private CharacterController dog;
@@ -37,18 +37,10 @@ public class DogFunction : MonoBehaviour {
         lastPos = transform.position;
         Debug.Log(Input.GetAxis("Jump"));
         if (Input.GetAxis("Jump") != 0) {
-            transform.Translate(0, Input.GetAxis("Jump"), 0);
+			float jump = jumpHeight * Time.deltaTime;
+			jump = Mathf.Clamp (jump, 0, jumpHeight);
+			transform.Translate (0, jump, 0);
         }
 	}
-
-    private void OnTriggerStay2D(Collider2D collision) {
-        if (collision.transform.gameObject.layer == 8) {
-            
-        }
-        Debug.Log(collision.transform.gameObject.layer);
-
-        if (collision.transform.gameObject.layer == 9) {
-        }
-    }
 
 }
