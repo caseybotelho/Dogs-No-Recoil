@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class DogFunction : MonoBehaviour {
 
-
     private float speed = 6.0f;
     private float jumpHeight = 8.0f;
 
     private Rigidbody2D body;
     private CharacterController dog;
 
-    private Vector3 lastPos;
-
+    float lastDir = 1;
+    
 
 	void Start () {
         body = GetComponent<Rigidbody2D>();
@@ -34,8 +33,13 @@ public class DogFunction : MonoBehaviour {
 
         transform.Translate(movement);
 
-        lastPos = transform.position;
-        Debug.Log(Input.GetAxis("Jump"));
+        float currentDir = Mathf.Sign(movX);
+        if (lastDir != currentDir && movX != 0) {
+            transform.Rotate(0, 180f, 0);
+            lastDir = currentDir;
+        }
+
+        Debug.Log(body.velocity.y);
         if (Input.GetAxis("Jump") != 0) {
 			float jump = jumpHeight * Time.deltaTime;
 			jump = Mathf.Clamp (jump, 0, jumpHeight);
