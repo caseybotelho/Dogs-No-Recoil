@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class Bullets : MonoBehaviour {
 
+	private GameController controller;
+
     private float speed = 20.0f;
 
     public float currentDir = 1;
 
-    void Start () {
-        LifeSpan();
+	IEnumerator Start() {
+		controller = Object.FindObjectOfType<GameController>();
+
+		yield return new WaitForSeconds (2.0f);
+
+		Destroy (this.gameObject);
+		controller.Destroyed ();
 	}
-	
+
 	void Update () {
         transform.Translate(currentDir * speed * Time.deltaTime, 0, 0);
 	}
@@ -20,13 +27,5 @@ public class Bullets : MonoBehaviour {
         currentDir = dir;
         Debug.Log(currentDir);
     }
-
-    private IEnumerator LifeSpan() {
-
-        speed = 2.0f;
-
-        yield return new WaitForSeconds(2.0f);
-
-        Destroy(this.gameObject);
-    }
+		
 }
