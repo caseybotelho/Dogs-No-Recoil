@@ -7,8 +7,13 @@ public class DogFunction : MonoBehaviour {
     private float speed = 6.0f;
     private float jumpHeight = 8.0f;
 
+    float currentDir = 1;
+
     private Rigidbody2D body;
     private CharacterController dog;
+
+    private GameObject gun;
+    private BasicGunProperties gunStuff;
 
     float lastDir = 1;
     
@@ -21,7 +26,9 @@ public class DogFunction : MonoBehaviour {
         }
 
         dog = GetComponent<CharacterController>();
-	}
+        gun = this.transform.Find("Gun").gameObject;
+        gunStuff = gun.GetComponent<BasicGunProperties>();
+    }
 	
 	void FixedUpdate () {
         float movX = Input.GetAxis("Horizontal") * speed;
@@ -32,19 +39,22 @@ public class DogFunction : MonoBehaviour {
         movement = transform.TransformDirection(movement);
 
         transform.Translate(movement);
-
-        float currentDir = Mathf.Sign(movX);
-        if (lastDir != currentDir && movX != 0) {
-            transform.Rotate(0, 180f, 0);
-            lastDir = currentDir;
+        
+        if (movX != 0) {
+            currentDir = Mathf.Sign(movX);
+            if (lastDir != currentDir) { 
+                transform.Rotate(0, 180f, 0);
+                lastDir = currentDir;
+                gunStuff.GetDirection(currentDir);
+            }
         }
 
-        Debug.Log(body.velocity.y);
         if (Input.GetAxis("Jump") != 0) {
 			float jump = jumpHeight * Time.deltaTime;
 			jump = Mathf.Clamp (jump, 0, jumpHeight);
 			transform.Translate (0, jump, 0);
         }
-	}
+
+    }
 
 }
