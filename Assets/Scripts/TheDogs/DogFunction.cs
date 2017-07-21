@@ -8,14 +8,16 @@ public class DogFunction : MonoBehaviour {
     private float jumpHeight = 8.0f;
 
     float currentDir = 1;
+    float lastDir = 1;
+
+    private GameObject jumpTrigger;
+    private bool grounded = true;
 
     private Rigidbody2D body;
     private CharacterController dog;
 
     private GameObject gun;
     private BasicGunProperties gunStuff;
-
-    float lastDir = 1;
     
 
 	void Start () {
@@ -27,6 +29,9 @@ public class DogFunction : MonoBehaviour {
 
         dog = GetComponent<CharacterController>();
         gun = this.transform.Find("Gun").gameObject;
+        gunStuff = gun.GetComponent<BasicGunProperties>();
+
+        jumpTrigger = this.transform.Find("FloorDetection").gameObject;
         gunStuff = gun.GetComponent<BasicGunProperties>();
     }
 	
@@ -49,7 +54,7 @@ public class DogFunction : MonoBehaviour {
             }
         }
 
-        if (Input.GetAxis("Jump") != 0) {
+        if (Input.GetAxis("Jump") != 0 && grounded) {
 			float jump = jumpHeight * Time.deltaTime;
 			jump = Mathf.Clamp (jump, 0, jumpHeight);
 			transform.Translate (0, jump, 0);

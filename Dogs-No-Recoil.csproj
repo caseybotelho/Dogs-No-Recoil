@@ -75,6 +75,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\GameController\GameController.cs" />
+    <Compile Include="Assets\Scripts\TheDogs\CheckGround.cs" />
     <Compile Include="Assets\Scripts\TheDogs\DogFunction.cs" />
     <Compile Include="Assets\Scripts\TheGuns\BasicGunProperties.cs" />
     <Compile Include="Assets\Scripts\TheGuns\Bullets.cs" />
