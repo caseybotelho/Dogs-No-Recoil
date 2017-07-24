@@ -100,6 +100,14 @@ public class BasicGunProperties : MonoBehaviour {
                 KeyReset();
             }
 		}
+
+        if (!canTrick) {
+            rollCool -= Time.deltaTime;
+            if (rollCool <= 0) {
+                rollCool = 10.0f;
+                canTrick = true;
+            }
+        }
 	}
 
     public void GetDirection(float dir) {
@@ -120,7 +128,6 @@ public class BasicGunProperties : MonoBehaviour {
                 Bullets bulletStuff = bullet.GetComponent<Bullets>();
                 bulletStuff.type = "shake";
                 bullet.transform.position = new Vector3(this.transform.position.x + 1, this.transform.position.y, 0);
-                float bulletRot = Random.Range(0, 360);
                 bullet.transform.Rotate(0, 0, j * 18);
                 bulletStuff.speed = (5);
             }
