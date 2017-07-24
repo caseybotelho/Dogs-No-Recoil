@@ -6,9 +6,11 @@ public class Bullets : MonoBehaviour {
 
 	private GameController controller;
 
-    private float speed = 20.0f;
+    public float speed = 20.0f;
 
     public float currentDir = 1;
+
+    public string type = "default";
 
 	IEnumerator Start() {
 		controller = Object.FindObjectOfType<GameController>();
@@ -16,7 +18,9 @@ public class Bullets : MonoBehaviour {
 		yield return new WaitForSeconds (2.0f);
 
 		Destroy (this.gameObject);
-		controller.Destroyed ();
+        if (type == "default") {
+            controller.Destroyed();
+        }
 	}
 
 	void Update () {

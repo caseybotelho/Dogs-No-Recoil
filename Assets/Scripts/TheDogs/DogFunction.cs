@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class DogFunction : MonoBehaviour {
 
-    private float speed = 6.0f;
-    private float jumpForce = 2.0f;
+    private const float defaultSpeed = 6.0f;
+    private float speed;
+    private float jumpForce = 7.0f;
 
     float currentDir = 1;
     float lastDir = 1;
@@ -13,13 +14,14 @@ public class DogFunction : MonoBehaviour {
     [SerializeField] private GameObject jumpTrigger;
 	CheckGround checkGround;
     private bool grounded = true;
+    private bool currentState;
 
     private Rigidbody2D body;
-    private CharacterController dog;
 
     private GameObject gun;
     private BasicGunProperties gunStuff;
-    
+
+    public bool rolling;
 
 	void Start () {
         body = GetComponent<Rigidbody2D>();
@@ -28,11 +30,14 @@ public class DogFunction : MonoBehaviour {
             body.freezeRotation = true;
         }
 
-        dog = GetComponent<CharacterController>();
         gun = this.transform.Find("Gun").gameObject;
         gunStuff = gun.GetComponent<BasicGunProperties>();
 
 		checkGround = jumpTrigger.GetComponent<CheckGround>();
+
+        currentState = grounded;
+
+        speed = defaultSpeed;
     }
 	
 	void FixedUpdate () {
@@ -45,11 +50,12 @@ public class DogFunction : MonoBehaviour {
         movement = Vector3.ClampMagnitude(movement, speed);
         movement *= Time.deltaTime;
         movement = transform.TransformDirection(movement);
-		if (grounded) {
+
+		if (grounded && !rolling) {
 			transform.Translate (movement);
 		}
         
-        if (movX != 0 && grounded) {
+        if (movX != 0 && grounded && speed != 0 && !rolling) {
             currentDir = Mathf.Sign(movX);
             if (lastDir != currentDir) { 
                 transform.Rotate(0, 180f, 0);
@@ -58,10 +64,34 @@ public class DogFunction : MonoBehaviour {
             }
         }
 
-        if (Input.GetAxis("Jump") != 0 && grounded) {
-			body.AddForce(new Vector2(1.5f * currentDir, jumpForce), ForceMode2D.Impulse);
+        if (Input.GetAxis("Jump") != 0 && grounded && speed != 0) {
+            speed = 0;
+            StartCoroutine(Jump());
+        }
+
+        if (currentState != grounded) {
+            if (grounded) {
+                StartCoroutine(Land());
+            } else {
+                currentState = grounded;
+            }
         }
 
     }
 
+    private IEnumerator Jump() {
+
+        yield return new WaitForSeconds(0.05f);
+
+        body.AddForce(new Vector2(3.5f * currentDir, jumpForce), ForceMode2D.Impulse);
+    }
+
+    private IEnumerator Land() {
+
+        yield return new WaitForSeconds(0.05f);
+
+        speed = defaultSpeed;
+
+        currentState = grounded;
+    }
 }
