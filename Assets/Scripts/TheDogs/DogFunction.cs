@@ -23,6 +23,9 @@ public class DogFunction : MonoBehaviour {
 
     public bool rolling;
 
+    [SerializeField] private GameObject breed;
+    private Animator runAnim;
+
 	void Start () {
         body = GetComponent<Rigidbody2D>();
 
@@ -38,6 +41,8 @@ public class DogFunction : MonoBehaviour {
         currentState = grounded;
 
         speed = defaultSpeed;
+
+        runAnim = breed.GetComponent<Animator>();
     }
 	
 	void FixedUpdate () {
