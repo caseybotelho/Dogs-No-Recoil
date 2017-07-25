@@ -47,6 +47,14 @@ public class DogFunction : MonoBehaviour {
 	
 	void FixedUpdate () {
 
+		if (Input.GetAxis("Horizontal") != 0) {
+			runAnim.SetBool ("Running", true);
+		}
+
+		if (Input.GetAxis("Horizontal") == 0) {
+			runAnim.SetBool ("Running", false);
+		}
+
 		grounded = checkGround.grounded;
 
         float movX = Input.GetAxis("Horizontal") * speed;
@@ -59,6 +67,7 @@ public class DogFunction : MonoBehaviour {
 		if (grounded && !rolling) {
 			transform.Translate (movement);
 		}
+			
         
         if (movX != 0 && grounded && speed != 0 && !rolling) {
             currentDir = Mathf.Sign(movX);
