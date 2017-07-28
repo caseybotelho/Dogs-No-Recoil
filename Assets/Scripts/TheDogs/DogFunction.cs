@@ -47,11 +47,11 @@ public class DogFunction : MonoBehaviour {
 	
 	void FixedUpdate () {
 
-		if (Input.GetAxis("Horizontal") != 0) {
+		if (Input.GetAxis("Horizontal") != 0 && grounded) {
 			runAnim.SetBool ("Running", true);
 		}
 
-		if (Input.GetAxis("Horizontal") == 0) {
+		if (Input.GetAxis("Horizontal") == 0 || !grounded) {
 			runAnim.SetBool ("Running", false);
 		}
 
@@ -80,6 +80,7 @@ public class DogFunction : MonoBehaviour {
 
         if (Input.GetAxis("Jump") != 0 && grounded && speed != 0) {
             speed = 0;
+            runAnim.SetBool("Jumping", true);
             StartCoroutine(Jump());
         }
 
@@ -107,5 +108,6 @@ public class DogFunction : MonoBehaviour {
         speed = defaultSpeed;
 
         currentState = grounded;
+        runAnim.SetBool("Jumping", false);
     }
 }
