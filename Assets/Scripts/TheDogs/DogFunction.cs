@@ -24,7 +24,7 @@ public class DogFunction : MonoBehaviour {
     public bool rolling;
 
     [SerializeField] private GameObject breed;
-    private Animator runAnim;
+    public Animator runAnim;
 
 	void Start () {
         body = GetComponent<Rigidbody2D>();
@@ -55,7 +55,7 @@ public class DogFunction : MonoBehaviour {
 			runAnim.SetBool ("Running", false);
 		}
 
-		grounded = checkGround.grounded;
+        grounded = checkGround.grounded;
 
         float movX = Input.GetAxis("Horizontal") * speed;
 
@@ -80,11 +80,11 @@ public class DogFunction : MonoBehaviour {
 
         if (Input.GetAxis("Jump") != 0 && grounded && speed != 0) {
             speed = 0;
-            runAnim.SetBool("Jumping", true);
             StartCoroutine(Jump());
         }
 
         if (currentState != grounded) {
+            runAnim.SetBool("Jumping", true);
             if (grounded) {
                 StartCoroutine(Land());
             } else {

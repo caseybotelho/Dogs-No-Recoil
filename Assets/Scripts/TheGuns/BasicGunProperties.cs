@@ -69,6 +69,7 @@ public class BasicGunProperties : MonoBehaviour {
 
                 // sets trick cooldown to start
                 canTrick = false;
+                dog.GetComponent<DogFunction>().runAnim.SetBool("Rolling", true);
                 StartCoroutine(Rolling());
                 KeyReset();
             }
@@ -133,6 +134,7 @@ public class BasicGunProperties : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.75f);
         }
+        dog.GetComponent<DogFunction>().runAnim.SetBool("Rolling", false);
         rolling = false;
         dog.GetComponent<DogFunction>().rolling = false;
     }
