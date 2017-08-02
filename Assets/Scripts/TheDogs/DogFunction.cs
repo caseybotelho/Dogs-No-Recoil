@@ -80,13 +80,13 @@ public class DogFunction : MonoBehaviour {
 
         if (Input.GetAxis("Jump") != 0 && grounded && speed != 0) {
             speed = 0;
-            StartCoroutine(Jump());
+            Jump();
         }
 
         if (currentState != grounded) {
             runAnim.SetBool("Jumping", true);
             if (grounded) {
-                StartCoroutine(Land());
+                Land();
             } else {
                 currentState = grounded;
             }
@@ -94,16 +94,12 @@ public class DogFunction : MonoBehaviour {
 
     }
 
-    private IEnumerator Jump() {
-
-        yield return new WaitForSeconds(0.05f);
+    private void Jump() {
 
         body.AddForce(new Vector2(3.5f * currentDir, jumpForce), ForceMode2D.Impulse);
     }
 
-    private IEnumerator Land() {
-
-        yield return new WaitForSeconds(0.05f);
+    private void Land() {
 
         speed = defaultSpeed;
 
