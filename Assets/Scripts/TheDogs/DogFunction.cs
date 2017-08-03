@@ -6,7 +6,8 @@ public class DogFunction : MonoBehaviour {
 
     private const float defaultSpeed = 6.0f;
     private float speed;
-    private float jumpForce = 7.0f;
+    private float jumpForceY = 8.0f;
+    private float jumpForceX = 5.5f;
 
     float currentDir = 1;
     float lastDir = 1;
@@ -96,7 +97,7 @@ public class DogFunction : MonoBehaviour {
 
     private void Jump() {
 
-        body.AddForce(new Vector2(3.5f * currentDir, jumpForce), ForceMode2D.Impulse);
+        body.AddForce(new Vector2(jumpForceX * currentDir, jumpForceY), ForceMode2D.Impulse);
     }
 
     private void Land() {
