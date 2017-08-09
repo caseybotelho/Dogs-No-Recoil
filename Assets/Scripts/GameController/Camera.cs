@@ -13,6 +13,7 @@ public class Camera : MonoBehaviour {
 	
 	void Update () {
         float vert = Mathf.Clamp(dog.transform.position.y, 1.17f, 40.0f);
-        transform.position = new Vector3(dog.transform.position.x, vert, -10);
+        float hor = Mathf.Clamp(dog.transform.position.x, -20.15f, 2.25f);
+        transform.position = new Vector3(hor, vert, -10);
 	}
 }
