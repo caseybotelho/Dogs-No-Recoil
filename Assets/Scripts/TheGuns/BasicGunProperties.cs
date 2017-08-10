@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BasicGunProperties : MonoBehaviour {
 
@@ -33,7 +34,7 @@ public class BasicGunProperties : MonoBehaviour {
     private bool rolling;
     private float rollCool = 10.0f;
     private bool canTrick = true;
-
+    
 	void Update () {
         // bark!
         if (Input.GetMouseButtonDown(1)) {
@@ -91,8 +92,8 @@ public class BasicGunProperties : MonoBehaviour {
             }
             // default fire mode if trick requirements not met
             else {
-			    if (bulletTotal < bulletMax && rolling == false) {
-			    	bullet = Instantiate (bulletPrefab) as GameObject;
+                if (bulletTotal < bulletMax && rolling == false) {
+                    bullet = Instantiate (bulletPrefab) as GameObject;
                     Bullets bulletStuff = bullet.GetComponent<Bullets>();
                     bullet.transform.position = new Vector3 (this.transform.position.x + 1, this.transform.position.y, 0);
 			    	bulletStuff.GetDirection (currentDir);
